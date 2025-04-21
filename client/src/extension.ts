@@ -12,32 +12,33 @@ let client: LanguageClient;
 
 // Called when the extension gets activated
 export async function activate(context: ExtensionContext) {
-	// サーバーのパスを取得
-	const serverModule =  Uri.joinPath(context.extensionUri, 'server', 'out', 'server.js').fsPath;
-	// デバッグ時の設定
+	// Get the path of the server
+	const serverModule = Uri.joinPath(context.extensionUri, 'server', 'Actions-Security-Language-Server-1.0-SNAPSHOT.jar').fsPath;
+	// Configuration for debugging
 	const debugOptions = { execArgv: ['--nolazy', '--inspect=6011'], cwd: process.cwd() };
 
-	// サーバーの設定
+	// Server configuration
 	const serverOptions: ServerOptions = {
 		run: {
-			module: serverModule,
+			command: 'java',
+			args: ['jar',serverModule],
 			transport: TransportKind.stdio,
 			options: { cwd: process.cwd() }
 		},
 		debug: {
-			module: serverModule,
-			transport: TransportKind.stdio,
+			command: 'java',
+			args: ['-jar', serverModule],
 			options: debugOptions,
 		},
 	};
-	// LSPとの通信に使うリクエストを定義
+	// Define the requests for communication with the LSP
 	const clientOptions: LanguageClientOptions = {
-		// 対象とするファイルの種類や拡張子
+		// Specify the types of files or extensions to target
 		documentSelector: [
 			{ scheme: 'file' },
 			{ scheme: 'untitled' }
 		],
-		// 警告パネルでの表示名
+		// Display name in the warning panel
 		diagnosticCollectionName: "github-actions-security-server",
 		revealOutputChannelOn: RevealOutputChannelOn.Never,
 		initializationOptions: {},
