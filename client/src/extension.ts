@@ -35,8 +35,8 @@ export async function activate(context: ExtensionContext) {
 	const clientOptions: LanguageClientOptions = {
 		// Specify the types of files or extensions to target
 		documentSelector: [
-			{ scheme: 'file' },
-			{ scheme: 'untitled' }
+			{ scheme: 'file', language: 'yaml' },
+			{ scheme: 'untitled', language: 'yaml' }
 		],
 		// Display name in the warning panel
 		diagnosticCollectionName: "github-actions-security-server",

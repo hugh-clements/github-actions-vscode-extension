@@ -2,34 +2,31 @@ import * as vscode from 'vscode';
 import * as assert from 'assert';
 import { getDocUri, activate } from './helper';
 
-suite('Should get diagnostics', () => {
-	const docUri = getDocUri('diagnostics.txt');
+suite('Should get all diagnostics', () => {
+  const docUri = getDocUri('fulldiagnostics1.yaml');
 
-	test('Diagnostics Hello World', async () => {
-		const start = new vscode.Position(0, 0);
-		const end = new vscode.Position(0, Number.MAX_VALUE);
-		await testDiagnostics(docUri, [
-			{
-				message: 'Hello world',
-				range: new vscode.Range(start, end),
-				severity: vscode.DiagnosticSeverity.Warning,
-				source: 'sample'
-			}
-		]);
-	});
+  test('Diagnostics Full Diagnostics', async () => {
+    const expectedCodes = [
+		'COMMAND_EXECUTION',
+		'UNPINNED_ACTION',
+		'UNSAFE_INPUT_ASSIGNMENT',
+		'RUNNER_HIJACKER',
+		'OUTDATED_REFERENCE'
+	  ];
+
+    // Activate the extension on this document
+    await activate(docUri);
+
+    // Grab whatever diagnostics the server sent
+    const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
+
+    assert.strictEqual(actualDiagnostics.length, expectedCodes.length,
+      `Expected ${expectedCodes.length} diagnostics but got ${actualDiagnostics.length}`);
+
+
+    expectedCodes.forEach(code => {
+      const found = actualDiagnostics.some(d => d.code && d.code.toString() === code);
+      assert.ok(found, `Expected to find a diagnostic with code "${code}"`);
+    });
+  });
 });
-
-async function testDiagnostics(docUri: vscode.Uri, expectedDiagnostics: vscode.Diagnostic[]) {
-	await activate(docUri);
-
-	const actualDiagnostics = vscode.languages.getDiagnostics(docUri);
-
-	assert.equal(actualDiagnostics.length, expectedDiagnostics.length);
-
-	expectedDiagnostics.forEach((expectedDiagnostic, i) => {
-		const actualDiagnostic = actualDiagnostics[i];
-		assert.equal(actualDiagnostic.message, expectedDiagnostic.message);
-		assert.deepEqual(actualDiagnostic.range, expectedDiagnostic.range);
-		assert.equal(actualDiagnostic.severity, expectedDiagnostic.severity);
-	});
-}
