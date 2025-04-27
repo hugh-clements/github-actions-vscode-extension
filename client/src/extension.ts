@@ -21,7 +21,7 @@ export async function activate(context: ExtensionContext) {
 	const serverOptions: ServerOptions = {
 		run: {
 			command: 'java',
-			args: ['jar',serverModule],
+			args: ['-jar',serverModule],
 			transport: TransportKind.stdio,
 			options: { cwd: process.cwd() }
 		},
