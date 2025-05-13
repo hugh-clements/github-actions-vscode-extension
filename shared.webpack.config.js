@@ -33,6 +33,10 @@ module.exports = function withDefaults(/**@type WebpackConfig*/extConfig) {
 						}
 					}
 				}]
+			},
+			{
+				test: /\.jar$/,
+				type: "asset/resource"
 			}
 		]
 		},

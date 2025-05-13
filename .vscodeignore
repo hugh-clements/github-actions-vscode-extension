@@ -17,9 +17,4 @@ client/out/*
 client/out/package.json
 !client/out/extension.js
 
-# The server is web packed. So only ship eslintServer.js
-server/*
-!server/out
-server/out/*
-server/out/package.json
-!server/out/eslintServer.js
+server/logs

@@ -13,7 +13,8 @@ let client: LanguageClient;
 // Called when the extension gets activated
 export async function activate(context: ExtensionContext) {
 	// Get the path of the server
-	const serverModule = Uri.joinPath(context.extensionUri, 'server', 'Actions-Security-Language-Server-1.0-SNAPSHOT.jar').fsPath;
+	const debugServerModule = Uri.joinPath(context.extensionUri, 'server', 'Actions-Security-Language-Server-1.0-SNAPSHOT.jar').fsPath;
+	const runServerModule = Uri.joinPath(context.extensionUri, 'server' ,'Actions-Security-Language-Server-1.0-SNAPSHOT.jar').fsPath;
 	// Configuration for debugging
 	const debugOptions = { execArgv: ['--nolazy', '--inspect=6011'], cwd: process.cwd() };
 
@@ -21,13 +22,13 @@ export async function activate(context: ExtensionContext) {
 	const serverOptions: ServerOptions = {
 		run: {
 			command: 'java',
-			args: ['-jar',serverModule],
+			args: ['-jar', runServerModule],
 			transport: TransportKind.stdio,
 			options: { cwd: process.cwd() }
 		},
 		debug: {
 			command: 'java',
-			args: ['-jar', serverModule],
+			args: ['-jar', debugServerModule],
 			options: debugOptions,
 		},
 	};
