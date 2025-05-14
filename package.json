@@ -2,9 +2,10 @@
 	"name": "github-actions-workflow-security-scanner",
 	"displayName": "GitHub Actions Workflow Security Scanner",
 	"description": "This is an extension that allows easy installation of the GitHub Workflows Security Language Server. This language server is used to ensure the correct configuration of the workflow yaml files.",
-	"version": "0.0.3",
+	"version": "1.0.0",
 	"publisher": "Hugh-Clements",
 	"author": "Hugh Clements",
+	"icon": "icon.png",
 	"repository": {
     "type": "git",
     "url": "https://github.com/hugh-clements/github-actions-vscode-extension"
